@@ -29,11 +29,14 @@ import { Stack } from "@spark-web/stack";
 import { Text } from "@spark-web/text";
 import { TextInput } from "@spark-web/text-input";
 import { useTheme } from "@spark-web/theme";
-import { createElement } from "react";
+import { createElement, useId } from "react";
 
 import { Logo } from "../components/brighte-logo";
 
 export default function Dashboard() {
+  const id = useId();
+  console.log(id);
+
   return (
     <>
       <Header />
@@ -107,76 +110,68 @@ function Header() {
                 height: HEADER_HEIGHT,
               })}
             >
-              <Box flex={1}>
-                <Hidden below="desktop">
-                  <Field label="Search" labelVisibility="hidden">
-                    <TextInput type="search" placeholder="Search..." />
-                  </Field>
-                </Hidden>
+              <Box display={{ mobile: "none", desktop: "block" }} flex={1}>
+                <Field label="Search" labelVisibility="hidden">
+                  <TextInput type="search" placeholder="Search..." />
+                </Field>
               </Box>
-              <Hidden below="desktop">
-                <Inline
-                  gap="large"
-                  alignY="center"
-                  className={css({ width: SIDEBAR_WIDTH })}
+              <Inline
+                gap="large"
+                alignY="center"
+                className={css({ width: SIDEBAR_WIDTH })}
+              >
+                <Button label="Notifications" tone="neutral" prominence="none">
+                  <BellIcon />
+                </Button>
+                <Box
+                  as="button"
+                  display="flex"
+                  alignItems="center"
+                  border="standard"
+                  gap="small"
+                  borderRadius="full"
+                  padding="xsmall"
+                  className={css({
+                    ":focus": {
+                      ...focusRingStyles,
+                      borderColor: theme.border.color.fieldAccent,
+                    },
+                  })}
                 >
-                  <Button
-                    label="Notifications"
-                    tone="neutral"
-                    prominence="none"
-                  >
-                    <BellIcon />
-                  </Button>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    height={theme.sizing.small}
+                    width={theme.sizing.small}
+                    alt="Jane Smith user avatar"
+                    className={css({
+                      borderRadius: theme.border.radius.full,
+                    })}
+                  />
+                  <Stack gap="small">
+                    <Text
+                      tone="muted"
+                      size="xsmall"
+                      align="left"
+                      weight="strong"
+                    >
+                      Jane Smith
+                    </Text>
+                    <Text tone="muted" size="xsmall" align="left">
+                      Australian Solar
+                    </Text>
+                  </Stack>
                   <Box
-                    as="button"
+                    height="small"
+                    width="small"
                     display="flex"
                     alignItems="center"
-                    border="standard"
-                    gap="small"
-                    borderRadius="full"
-                    padding="xsmall"
-                    className={css({
-                      ":focus": {
-                        ...focusRingStyles,
-                        borderColor: theme.border.color.fieldAccent,
-                      },
-                    })}
+                    justifyContent="center"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMGF2YXRhcnxlbnwwfHwwfHw%3D&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      height={theme.sizing.small}
-                      width={theme.sizing.small}
-                      alt="Jane Smith user avatar"
-                      className={css({
-                        borderRadius: theme.border.radius.full,
-                      })}
-                    />
-                    <Stack gap="small">
-                      <Text
-                        tone="muted"
-                        size="xsmall"
-                        align="left"
-                        weight="strong"
-                      >
-                        Jane Smith
-                      </Text>
-                      <Text tone="muted" size="xsmall" align="left">
-                        Australian Solar
-                      </Text>
-                    </Stack>
-                    <Box
-                      height="small"
-                      width="small"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <ChevronDownIcon size="xxsmall" tone="muted" />
-                    </Box>
+                    <ChevronDownIcon size="xxsmall" tone="muted" />
                   </Box>
-                </Inline>
-              </Hidden>
+                </Box>
+              </Inline>
             </Inline>
           </Inline>
         </Row>
@@ -313,59 +308,83 @@ function AtAGlance() {
       <Heading as="h2" level="3">
         At a glance
       </Heading>
-      <Columns gap="xlarge" collapseBelow="desktop">
+      <Columns gap="xlarge" alignY="stretch" collapseBelow="tablet">
         {(
           [
-            {
-              icon: BriefcaseIcon,
-              label: "Unassigned leads",
-              number: 8,
-              tone: "critical",
-              value: "$37,500.00",
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Sent quotes",
-              number: 10,
-              tone: "caution",
-              value: "$37,500.00",
-            },
-            {
-              icon: ClipboardCheckIcon,
-              label: "Approved applications",
-              number: 8,
-              tone: "info",
-              value: "$37,500.00",
-            },
-            {
-              icon: ClipboardListIcon,
-              label: "Paid application",
-              number: 8,
-              tone: "positive",
-              value: "$37,500.00",
-            },
+            [
+              {
+                icon: BriefcaseIcon,
+                label: "Unassigned leads",
+                number: 8,
+                tone: "critical",
+                value: "$37,500.00",
+              },
+              {
+                icon: DocumentTextIcon,
+                label: "Sent quotes",
+                number: 10,
+                tone: "caution",
+                value: "$37,500.00",
+              },
+            ],
+            [
+              {
+                icon: ClipboardCheckIcon,
+                label: "Approved applications",
+                number: 8,
+                tone: "info",
+                value: "$37,500.00",
+              },
+              {
+                icon: ClipboardListIcon,
+                label: "Paid application",
+                number: 8,
+                tone: "positive",
+                value: "$37,500.00",
+              },
+            ],
           ] as const
-        ).map(({ icon, label, number, tone, value }) => (
-          <Stack
-            key={label}
-            as="article"
-            background={`${tone}Low` || "criticalLow"}
-            gap="large"
-            padding="large"
-            borderRadius="large"
+        ).map((column, index) => (
+          <Columns
+            key={index}
+            gap="xlarge"
+            alignY="stretch"
+            collapseBelow="desktop"
           >
-            {createElement(icon, { size: "xsmall", tone })}
-            <Heading as="span" level="2">
-              {number}
-            </Heading>
-            <Stack gap="small">
-              <Text weight="strong">{label}</Text>
-              <Text>{value}</Text>
-            </Stack>
-          </Stack>
+            {column.map(({ icon, label, number, tone, value }) => (
+              <Stack
+                key={label}
+                as="article"
+                background={`${tone}Low` || "criticalLow"}
+                gap="large"
+                padding="large"
+                borderRadius="large"
+              >
+                {createElement(icon, { size: "xsmall", tone })}
+                <Heading as="span" level="2">
+                  {number}
+                </Heading>
+                <Stack gap="small">
+                  <Text weight="strong">{label}</Text>
+                  <Text>{value}</Text>
+                </Stack>
+              </Stack>
+            ))}
+          </Columns>
         ))}
       </Columns>
     </Stack>
+  );
+}
+
+function SeeAllLink({ href }: { href: string }) {
+  return (
+    <Link as={Inline} gap="small" alignY="center" href={href}>
+      <Text inline weight="strong">
+        See all
+      </Text>
+      <ChevronRightIcon size="xxsmall" />
+    </Link>
   );
 }
 
@@ -379,12 +398,7 @@ function UnassignedLeads() {
           </Heading>
         </Row>
         <Row alignSelf="end">
-          <Inline gap="small" alignY="center">
-            <Text inline weight="strong">
-              See all
-            </Text>
-            <ChevronRightIcon size="xxsmall" />
-          </Inline>
+          <SeeAllLink href="/" />
         </Row>
       </Inline>
       <Columns gap="xlarge" template={[1, 1]} collapseBelow="tablet">
@@ -464,12 +478,7 @@ function LatestPayments() {
           </Heading>
         </Row>
         <Row alignSelf="end">
-          <Inline gap="small" alignY="center">
-            <Text inline weight="strong">
-              See all
-            </Text>
-            <ChevronRightIcon size="xxsmall" />
-          </Inline>
+          <SeeAllLink href="/" />
         </Row>
       </Inline>
       {/*  */}
@@ -487,12 +496,7 @@ function VendorUpdates() {
           </Heading>
         </Row>
         <Row alignSelf="end">
-          <Inline gap="small" alignY="center">
-            <Text inline weight="strong">
-              See all
-            </Text>
-            <ChevronRightIcon size="xxsmall" />
-          </Inline>
+          <SeeAllLink href="/" />
         </Row>
       </Inline>
       {[
