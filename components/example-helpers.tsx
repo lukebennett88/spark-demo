@@ -67,7 +67,7 @@ export function Placeholder({
             baseline={false}
             size="small"
             tone="muted"
-            weight="strong"
+            weight="semibold"
           >
             {label}
           </Text>
@@ -93,7 +93,7 @@ function CodeElement({
     baseline: false,
     tone: inline ? "accent" : "neutral",
     size: "small",
-    weight: "medium",
+    weight: "semibold",
   });
 
   return (

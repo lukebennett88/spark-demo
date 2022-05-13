@@ -1,4 +1,5 @@
 import { propsWithCssText } from "@spark-web/next-utils";
+import { AesteticoStylesheet } from "@spark-web/core";
 import NextDocument, {
   Head,
   Html,
@@ -17,14 +18,7 @@ export default class Document extends NextDocument {
     return (
       <Html>
         <Head>
-          <link
-            rel="stylesheet"
-            href="https://spark-web-docs-5at71kbus-brighte.vercel.app/_next/static/css/b1c6707967e86a27.css"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=optional"
-          />
+          <AesteticoStylesheet />
         </Head>
         <body>
           <Main />
